@@ -1,23 +1,29 @@
-'use client'
+"use client";
 
-import { usePost } from "@/store";
-import { FormEventHandler, useState } from "react"
-
+import useSWR from "swr";
+import { FormEventHandler, useState } from "react";
+import { getPostsBySearch } from "@/services/getPosts";
 
 export default function PostSearch() {
-	const [search, setSearch] = useState('');
-	const getPostsBySearch = usePost(state => state.getPostsBySearch)
+  const { mutate } = useSWR("posts");
 
+  const [search, setSearch] = useState("");
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-		event.preventDefault();
-		await getPostsBySearch(search);
-	}
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+    const posts = await getPostsBySearch(search);
+    mutate(posts);
+  };
 
-	return (
-		<form onSubmit={handleSubmit}>
-			<input type="search" placeholder="search" value={search} onChange={(event) => setSearch(event.target.value)}/>
-			<button type="submit">Search</button>
-		</form>
-	)
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="search"
+        placeholder="search"
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+      />
+      <button type="submit">Search</button>
+    </form>
+  );
 }
