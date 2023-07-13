@@ -17,6 +17,7 @@ export default function Navigation({ navLinks }: Props) {
   const pathname = usePathname();
   const session = useSession();
 
+
   return (
     <>
       {navLinks.map((link) => {
@@ -37,7 +38,7 @@ export default function Navigation({ navLinks }: Props) {
           Sign Out
         </Link>
       ) : (
-        <Link href="/api/auth/signin">Signin</Link>
+        <Link href="/signin">Signin</Link>
       )}
     </>
   );
