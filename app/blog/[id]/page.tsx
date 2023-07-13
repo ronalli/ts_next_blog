@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { title } from "process";
 
 async function getPost(id: string) {
   const response = await fetch(
